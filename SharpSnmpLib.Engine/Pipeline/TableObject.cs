@@ -18,7 +18,6 @@
 // DEALINGS IN THE SOFTWARE.
 
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Lextm.SharpSnmpLib.Pipeline
 {
@@ -40,7 +39,14 @@ namespace Lextm.SharpSnmpLib.Pipeline
         /// <returns><c>null</c> if it does not match.</returns>
         public override ScalarObject MatchGetNext(ObjectIdentifier id)
         {
-            return Objects.Select(o => o.MatchGetNext(id)).FirstOrDefault(result => result != null);
+            foreach (var o in Objects)
+            {
+                var result = o.MatchGetNext(id);
+                if (result != null)
+                    return result;
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -50,7 +56,14 @@ namespace Lextm.SharpSnmpLib.Pipeline
         /// <returns><c>null</c> if it does not match.</returns>
         public override ScalarObject MatchGet(ObjectIdentifier id)
         {
-            return Objects.Select(o => o.MatchGet(id)).FirstOrDefault(result => result != null);
+            foreach (var o in Objects)
+            {
+                var result = o.MatchGet(id);
+                if (result != null)
+                    return result;
+            }
+
+            return null;
         }
     }
 }

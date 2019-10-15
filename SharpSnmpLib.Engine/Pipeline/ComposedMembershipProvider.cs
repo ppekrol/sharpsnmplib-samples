@@ -17,8 +17,6 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-using System.Linq;
-
 namespace Lextm.SharpSnmpLib.Pipeline
 {
     /// <summary>
@@ -44,7 +42,13 @@ namespace Lextm.SharpSnmpLib.Pipeline
         /// <returns></returns>
         public bool AuthenticateRequest(ISnmpContext context)
         {
-            return _providers.Any(provider => provider.AuthenticateRequest(context));
+            foreach (var provider in _providers)
+            {
+                if (provider.AuthenticateRequest(context))
+                    return true;
+            }
+
+            return false;
         }
     }
 }

@@ -27,7 +27,6 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using Lextm.SharpSnmpLib.Security;
 using System.Threading.Tasks;
@@ -261,9 +260,12 @@ namespace Lextm.SharpSnmpLib.Pipeline
                 throw new InvalidOperationException("Must be called when Active == false");
             }
 
-            if (Bindings.Any(existed => existed.Endpoint.Equals(endpoint)))
+            foreach (var existed in Bindings)
             {
-                return;
+                if (existed.Endpoint.Equals(endpoint))
+                {
+                    return;
+                }
             }
 
             var binding = new ListenerBinding(Users, endpoint);

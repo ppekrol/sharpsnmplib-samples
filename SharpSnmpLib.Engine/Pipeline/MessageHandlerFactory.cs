@@ -27,7 +27,6 @@
  */
 
 using System;
-using System.Linq;
 using Lextm.SharpSnmpLib.Messaging;
 
 namespace Lextm.SharpSnmpLib.Pipeline
@@ -62,8 +61,11 @@ namespace Lextm.SharpSnmpLib.Pipeline
         /// <returns></returns>
         public IMessageHandler GetHandler(ISnmpMessage message)
         {
-            foreach (var mapping in _mappings.Where(mapping => mapping.CanHandle(message)))
+            foreach (var mapping in _mappings)
             {
+                if (mapping.CanHandle(message) == false)
+                    continue;
+
                 return mapping.Handler;
             }
 

@@ -18,7 +18,6 @@
 // DEALINGS IN THE SOFTWARE.
 
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Lextm.SharpSnmpLib.Pipeline
 {
@@ -38,7 +37,14 @@ namespace Lextm.SharpSnmpLib.Pipeline
         /// <returns></returns>
         public virtual ScalarObject GetObject(ObjectIdentifier id)
         {
-            return List.Select(o => o.MatchGet(id)).FirstOrDefault(result => result != null);
+            foreach (var o in List)
+            {
+                var result = o.MatchGet(id);
+                if (result != null)
+                    return result;
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -48,7 +54,14 @@ namespace Lextm.SharpSnmpLib.Pipeline
         /// <returns></returns>
         public virtual ScalarObject GetNextObject(ObjectIdentifier id)
         {
-            return List.Select(o => o.MatchGetNext(id)).FirstOrDefault(result => result != null);
+            foreach (var o in List)
+            {
+                var result = o.MatchGetNext(id);
+                if (result != null)
+                    return result;
+            }
+
+            return null;
         }
 
         /// <summary>

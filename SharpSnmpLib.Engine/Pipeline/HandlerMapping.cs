@@ -164,7 +164,17 @@ namespace Lextm.SharpSnmpLib.Pipeline
 
         private bool VersionMatched(ISnmpMessage message)
         {
-            return _catchAll || _version.Any(v => StringEquals(message.Version.ToString(), v));
+            if (_catchAll)
+                return true;
+
+            var messageVersion = message.Version.ToString();
+            foreach (var version in _version)
+            {
+                if (StringEquals(messageVersion, version))
+                    return true;
+            }
+
+            return false;
         }
 
         private static bool StringEquals(string left, string right)
