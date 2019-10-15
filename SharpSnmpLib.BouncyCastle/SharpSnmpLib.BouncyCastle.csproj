@@ -2,8 +2,8 @@
   <PropertyGroup>
     <AssemblyName>SharpSnmpLib.BouncyCastle</AssemblyName>
     <RootNamespace>Lextm.SharpSnmpLib.BouncyCastle</RootNamespace>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard1.3;net452</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard1.3</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.0</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard2.0</TargetFrameworks>
     <PackageId>Lextm.SharpSnmpLib.BouncyCastle</PackageId>
     <Title>#SNMP Library, Bouncy Castle encryption providers</Title>
     <NeutralLanguage>en-US</NeutralLanguage>
@@ -34,6 +34,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.8.5" />
-    <PackageReference Include="Lextm.SharpSnmpLib" Version="11.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\sharpsnmplib\SharpSnmpLib\SharpSnmpLib.csproj" />
   </ItemGroup>
 </Project>

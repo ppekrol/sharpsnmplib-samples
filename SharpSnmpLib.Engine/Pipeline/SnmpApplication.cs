@@ -76,12 +76,20 @@ namespace Lextm.SharpSnmpLib.Pipeline
         /// </summary>
         public void Process()
         {
-            OnAuthenticateRequest();
-            
-            // TODO: add authorization.
-            OnMapRequestHandler();
-            OnRequestHandlerExecute();
-            OnLogRequest();
+            try
+            {
+                OnAuthenticateRequest();
+
+                // TODO: add authorization.
+                OnMapRequestHandler();
+                OnRequestHandlerExecute();
+                OnLogRequest();
+            }
+            finally
+            {
+                Context?.Response?.Dispose();
+            }
+
             _owner.Reuse(this);
         }
 
@@ -118,12 +126,12 @@ namespace Lextm.SharpSnmpLib.Pipeline
                 // return TRAP saying authenticationFailed.
                 CompleteProcessing();
             }
-            
+
             if (Context.Response != null)
             {
                 CompleteProcessing();
             }
-        }        
+        }
 
         private void OnLogRequest()
         {

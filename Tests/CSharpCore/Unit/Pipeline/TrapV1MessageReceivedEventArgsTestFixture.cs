@@ -15,7 +15,7 @@ namespace Lextm.SharpSnmpLib.Unit.Pipeline
             Assert.Throws<ArgumentNullException>(() => new TrapV1MessageReceivedEventArgs(null, null, null));
             Assert.Throws<ArgumentNullException>(
                 () => new TrapV1MessageReceivedEventArgs(new IPEndPoint(IPAddress.Any, 0), null, null));
-            IList<Variable> v = new List<Variable>();
+            List<Variable> v = new List<Variable>();
             Assert.Throws<ArgumentNullException>(
                 () =>
                 new TrapV1MessageReceivedEventArgs(new IPEndPoint(IPAddress.Any, 0),

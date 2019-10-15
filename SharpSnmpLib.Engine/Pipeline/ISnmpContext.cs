@@ -33,7 +33,7 @@ namespace Lextm.SharpSnmpLib.Pipeline
         /// Generates the response.
         /// </summary>
         /// <param name="variables">The variables.</param>
-        void GenerateResponse(IList<Variable> variables);
+        void GenerateResponse(List<Variable> variables);
 
         /// <summary>
         /// Copies the request variable bindings to response.

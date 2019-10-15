@@ -150,6 +150,7 @@ namespace Lextm.SharpSnmpLib.Pipeline
                 null);
             if (TooBig)
             {
+                Response.Dispose();
                 Response = null;
                 
                 // TODO: snmpSilentDrops++;
@@ -276,7 +277,7 @@ namespace Lextm.SharpSnmpLib.Pipeline
         /// Generates the response.
         /// </summary>
         /// <param name="variables">The variables.</param>
-        public override void GenerateResponse(IList<Variable> variables)
+        public override void GenerateResponse(List<Variable> variables)
         {
             var userName = Request.Parameters.UserName;
             var privacy = Users.Find(userName);
