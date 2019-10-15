@@ -51,7 +51,7 @@ namespace Lextm.SharpSnmpLib.Pipeline
             }  
             
             var index = 0;
-            IList<Variable> result = new List<Variable>();
+            List<Variable> result = Pools.GetVariableList();
             foreach (var v in context.Request.Pdu().Variables)
             {
                 index++;

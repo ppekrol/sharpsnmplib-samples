@@ -49,7 +49,7 @@ namespace Lextm.SharpSnmpLib.Pipeline
             }    
             
             var pdu = context.Request.Pdu();
-            IList<Variable> result = new List<Variable>();
+            List<Variable> result = Pools.GetVariableList();
             var index = 0;
             var nonrepeaters = pdu.ErrorStatus.ToInt32();
             var variables = pdu.Variables;

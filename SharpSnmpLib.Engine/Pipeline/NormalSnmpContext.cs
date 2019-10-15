@@ -88,7 +88,7 @@ namespace Lextm.SharpSnmpLib.Pipeline
         /// Generates the response.
         /// </summary>
         /// <param name="variables">The variables.</param>
-        public override void GenerateResponse(IList<Variable> variables)
+        public override void GenerateResponse(List<Variable> variables)
         {
             Response = new ResponseMessage(
                 Request.RequestId(),
