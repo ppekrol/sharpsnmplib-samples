@@ -22,7 +22,7 @@ namespace Lextm.SharpSnmpLib.Pipeline
     /// <summary>
     /// SNMP application class, who is a pipeline for message processing.
     /// </summary>
-    public sealed class SnmpApplication
+    public struct SnmpApplication
     {
         private readonly ILogger _logger;
         private readonly IMembershipProvider _provider;
@@ -46,6 +46,10 @@ namespace Lextm.SharpSnmpLib.Pipeline
             _logger = logger;
             _store = store;
             _factory = factory;
+
+            Context = null;
+            ProcessingFinished = false;
+            _handler = null;
         }
 
         /// <summary>
@@ -93,9 +97,8 @@ namespace Lextm.SharpSnmpLib.Pipeline
             finally
             {
                 Context?.Response?.Dispose();
+                Context = null;
             }
-
-            _owner.Reuse(this);
         }
 
         private void OnRequestHandlerExecute()
