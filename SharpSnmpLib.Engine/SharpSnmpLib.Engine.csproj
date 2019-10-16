@@ -71,6 +71,6 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\sharpsnmplib\SharpSnmpLib\SharpSnmpLib.csproj" />
+    <ProjectReference Include="..\..\sharpsnmplib\SharpSnmpLib\SharpSnmpLib.csproj" PrivateAssets="All" />
   </ItemGroup>
 </Project>
