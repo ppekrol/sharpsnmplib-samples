@@ -32,7 +32,6 @@ namespace Lextm.SharpSnmpLib.Pipeline
         private readonly IMembershipProvider _membershipProvider;
         private readonly MessageHandlerFactory _factory;
         private readonly object _root = new object();
-        private readonly Queue<SnmpApplication> _queue = new Queue<SnmpApplication>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SnmpApplicationFactory"/> class.
@@ -67,38 +66,9 @@ namespace Lextm.SharpSnmpLib.Pipeline
         /// <returns></returns>
         public SnmpApplication Create(ISnmpContext context)
         {
-            SnmpApplication result = null;
-            lock (_root)
-            {
-                if (_queue.Count > 0)
-                {
-                    result = _queue.Dequeue();
-                }
-            }
-
-            if (result == null)
-            {
-                result = new SnmpApplication(this, _logger, _store, _membershipProvider, _factory);
-            }
-
+            SnmpApplication result = new SnmpApplication(this, _logger, _store, _membershipProvider, _factory);
             result.Init(context);
             return result;
-        }
-
-        /// <summary>
-        /// Reuses the specified pipeline.
-        /// </summary>
-        /// <param name="application">The application.</param>
-        internal void Reuse(SnmpApplication application)
-        {
-            lock (_root)
-            {
-                application.Clear();
-                _queue.Enqueue(application);
-
-                while (_queue.Count > 25)
-                    _queue.Dequeue();
-            }
         }
     }
 }
