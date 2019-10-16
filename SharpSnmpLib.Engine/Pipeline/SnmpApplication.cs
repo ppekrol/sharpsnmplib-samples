@@ -63,11 +63,6 @@ namespace Lextm.SharpSnmpLib.Pipeline
             _handler = null;
         }
 
-        public void Clear()
-        {
-            Init(null);
-        }
-
         /// <summary>
         /// Gets the context.
         /// </summary>
