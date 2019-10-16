@@ -78,7 +78,7 @@ namespace Lextm.SharpSnmpLib.Pipeline
 
             if (result == null)
             {
-                result = new SnmpApplication(this, _logger, _store, _membershipProvider, _factory);              
+                result = new SnmpApplication(this, _logger, _store, _membershipProvider, _factory);
             }
 
             result.Init(context);
@@ -93,7 +93,11 @@ namespace Lextm.SharpSnmpLib.Pipeline
         {
             lock (_root)
             {
+                application.Clear();
                 _queue.Enqueue(application);
+
+                while (_queue.Count > 25)
+                    _queue.Dequeue();
             }
         }
     }
