@@ -28,9 +28,8 @@ namespace Lextm.SharpSnmpLib.Pipeline
     public sealed class EngineGroup
     {
         // TODO: make engine ID configurable from outside and unique.
-        private readonly OctetString _engineId =
-            new OctetString(new byte[] { 128, 0, 31, 136, 128, 233, 99, 0, 0, 214, 31, 244 });
-        
+        private OctetString _engineId = new OctetString(new byte[] { 128, 0, 31, 136, 128, 233, 99, 0, 0, 214, 31, 244 });
+
         private readonly DateTime _start;
         private uint _counterNotInTimeWindow;
         private uint _counterUnknownEngineId;
@@ -38,7 +37,14 @@ namespace Lextm.SharpSnmpLib.Pipeline
         private uint _counterDecryptionError;
         private uint _counterUnknownSecurityLevel;
         private uint _counterAuthenticationFailure;
-        
+        private int? _engineBoots;
+
+        public EngineGroup(int engineBoots)
+            : this()
+        {
+            _engineBoots = engineBoots;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EngineGroup"/> class.
         /// </summary>
@@ -46,14 +52,15 @@ namespace Lextm.SharpSnmpLib.Pipeline
         {
             _start = DateTime.UtcNow;
         }
-        
+
         /// <summary>
         /// Gets the engine id.
         /// </summary>
         /// <value>The engine id.</value>
-        internal OctetString EngineId
+        public OctetString EngineId
         {
             get { return _engineId; }
+            set { _engineId = value; }
         }
 
         /// <summary>
@@ -84,7 +91,7 @@ namespace Lextm.SharpSnmpLib.Pipeline
                 var now = DateTime.UtcNow;
                 var seconds = (now - _start).Ticks / 10000000;
                 var engineTime = (int)(seconds % int.MaxValue);
-                var engineReboots = (int)(seconds / int.MaxValue);
+                var engineReboots = _engineBoots ?? (int)(seconds / int.MaxValue);
                 return new[] { engineReboots, engineTime };
             }
         }
@@ -128,7 +135,7 @@ namespace Lextm.SharpSnmpLib.Pipeline
         /// <value>
         /// Counter variable.
         /// </value>
-        public Variable NotInTimeWindow 
+        public Variable NotInTimeWindow
         {
             get
             {
@@ -144,7 +151,7 @@ namespace Lextm.SharpSnmpLib.Pipeline
         /// </value>
         public Variable UnknownEngineId
         {
-            get 
+            get
             {
                 return new Variable(Messenger.UnknownEngineId, new Counter32(_counterUnknownEngineId++));
             }
