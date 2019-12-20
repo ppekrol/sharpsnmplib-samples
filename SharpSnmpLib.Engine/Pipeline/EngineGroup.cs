@@ -37,12 +37,14 @@ namespace Lextm.SharpSnmpLib.Pipeline
         private uint _counterDecryptionError;
         private uint _counterUnknownSecurityLevel;
         private uint _counterAuthenticationFailure;
-        private int? _engineBoots;
+        private readonly int? _engineBoots;
+        private readonly Func<int[], int, int, bool> _isInTime;
 
-        public EngineGroup(int engineBoots)
+        public EngineGroup(int engineBoots, Func<int[], int, int, bool> isInTime)
             : this()
         {
             _engineBoots = engineBoots;
+            _isInTime = isInTime;
         }
 
         /// <summary>
@@ -105,7 +107,15 @@ namespace Lextm.SharpSnmpLib.Pipeline
         /// <returns>
         ///   <c>true</c> if the request is in time window; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsInTime(int[] currentTimeData, int pastReboots, int pastTime)
+        public bool IsInTime(int[] currentTimeData, int pastReboots, int pastTime)
+        {
+            if (_isInTime != null)
+                return _isInTime(currentTimeData, pastReboots, pastTime);
+
+            return IsInTimeDefault(currentTimeData, pastReboots, pastTime);
+        }
+        
+        public static bool IsInTimeDefault(int[] currentTimeData, int pastReboots, int pastTime)
         {
             var currentReboots = currentTimeData[0];
             var currentTime = currentTimeData[1];
